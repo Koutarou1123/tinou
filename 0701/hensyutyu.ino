@@ -6,6 +6,7 @@
 //volatile unsigned int temp, counter = 0;
 volatile int temp, counter = 0;
 double val = 0;
+double k =0;
 
 #include <avr/io.h>
 
@@ -14,13 +15,13 @@ void flash() { //割込み処理
  // double val = 0;
   static boolean output = HIGH;  // プログラム起動前に１回だけHIGH(1)で初期化される
   double Target=-0.1;
-  double p=-3500, h=0, i=0;
+  double p=-2350, h=0, i=0;
   static double sum=0;
-  
-  val = (counter*0.0000612)/0.05;//0.1225
-   
-
+  int cnt = counter;
   counter = 0;
+  val = (cnt*0.0000612253)/0.05;//0.1225
+  k = val*100;
+
 
   h = (Target-val);
 //  Serial.println (round(x*p+sum*i));
@@ -58,7 +59,7 @@ void Motor_set(float out){
     if(out>=0){
     if(out>255) out = 255;
      analogWrite(11,out);
-     analogWrite(12,LOW);
+     analogWrite(12,0);
   
   }
  
@@ -66,7 +67,7 @@ void Motor_set(float out){
     out = -1*out;
     if(out>255) out = 255;
    
-    analogWrite(11,LOW);
+    analogWrite(11,0);
     analogWrite(12,out);
   }
 
@@ -78,7 +79,7 @@ void Motor_set(float out){
 void loop() {
   
 
- Serial.println (val);
+ Serial.println (k);
 
 
 
